@@ -1,0 +1,30 @@
+name: Documentation
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install .[pandas] sphinx myst-parser
+      - run: sphinx-apidoc -o docs/apidoc src/carbon
+      - run: sphinx-build -M html docs docs/_build
+      # - uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: docs/_build/html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Documentation
+          path: docs/_build/html
+          retention-days: 15
+          overwrite: true

@@ -1,0 +1,26 @@
+name: Python checks
+on:
+  pull_request:
+
+jobs:
+  static_analysis:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install ruff
+      - run: ruff check --diff .
+
+  unit_testing:
+    name: Unit testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e '.'
+      - run: python -m unittest discover -v -s ./tests

@@ -1,0 +1,40 @@
+[project]
+dynamic = ["version"]
+name = "ad-carbon-calculation-framework"
+authors = [
+    { name="Greenbids.ai" },
+]
+description = "Reference framework for calculating the carbon footprint of digital campaigns"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pydantic>=2",
+    "PyYAML"
+]
+
+[project.optional-dependencies]
+    pandas = [
+        "pandas",
+    ]
+
+[project.urls]
+Homepage = "https://github.com/OneframeDigital/ad-carbon-calculation-framework"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/*", "pyproject.toml", "README.md", "LICENCE"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/carbon"]
+
+[tool.hatch.version]
+source = "vcs"
+path = "src/carbon/__init__.py"

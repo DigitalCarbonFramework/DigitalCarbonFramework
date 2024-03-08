@@ -1,0 +1,103 @@
+allocation_network_use:
+  nb_requests_per_active_path: 3
+  mean_https_request_k0: 29
+  uncertainty_margin: 0.5
+  fixed_network_use: 1.
+  energy_efficiency_fixed_network_in_use_kWh_per_kO: 6.87e-8
+  network_trafic_in_datacenter_country_share: 1.
+  emission_factor_server: 0.22
+    
+allocation_network_manufacturing:
+  nb_requests_per_active_path: 3
+  mean_https_request_k0: 29
+  uncertainty_margin: 0.5
+  fixed_network_use: 1.
+  impact_1ko_transport_on_fixed_network_kgCo2_per_kO: 4.43e-9
+  
+
+allocation_servers_use:
+  nb_server_requests_per_active_path:  2
+  server_time_calculation_during_auction_s: 5.56e-6
+  vm_mean_power_in_kW: 0.0085
+  pue: 1.69
+  server_consumption: 0.5
+  server_share_local: 0.45
+  server_share_worldwide: 0.55
+  emission_factor_country: 0.052
+  emission_factor_worldwide: 0.357
+
+allocation_servers_manufacturing:
+  nb_server_requests_per_active_path: 2
+  annual_manufacturing_cost_kgco2: 732
+  nb_vm_servers_per_physic_server: 8
+  server_time_calculation_during_auction_s: 5.56e-6
+  server_consumption: 0.5
+
+
+
+allocation_network_servers:
+  nb_paths_display: 350
+  nb_paths_video: 100
+  publisher_activated_paths_share: 1.0
+  ssp_activated_paths_share: 1.0
+
+
+
+distribution_server_use:
+  pue_mean: 1.69
+  energy_efficiency_server_target_country: 6.69e-8
+  energy_efficiency_server_worldwide: 7.1e-9
+  server_share_local: 0.45
+  server_share_worldwide: 0.55
+  emission_factor_worldwide: 0.357
+  emission_factor_target_country: 0.052
+    
+distribution_server_manufacturing:
+  annual_manufacturing_cost_kgco2: 732
+  bandwidth_server_ko_per_s: 125000
+  
+
+
+distribution_network_use:
+  fixed_network_usage_share: 0.9
+  fixed_mobile_usage_share: 0.1
+  server_share_local: 0.45
+  server_share_datacenter: 0.55
+  energy_efficiency_fixed_network_in_use_kWh_per_kO: 6.87e-8
+  energy_efficiency_mobile_in_use_kWh_per_kO: 2.36e-7
+  emission_factor_target_country: 0.052
+  emission_factor_worldwide: 0.220
+
+distribution_network_manufacturing:
+  fixed_network_usage_share: 0.9
+  fixed_mobile_usage_share: 0.1
+  transport_cost_on_fixed_network_kgCo2_per_kO: 4.43e-9
+  transport_cost_on_mobile_kgCo2_per_kO: 7.97e-9
+
+
+
+distribution_terminal_use:
+  smartphone_usage: browser
+  smart_phone_average_power_watt_app: 2.097122
+  smart_phone_average_power_watt_browser: 2.8525
+  tv_average_power_watt: 81.6
+  desktop_average_power_watt: 29.4
+  tablet_average_power_watt: 29.4
+  emission_factor_target_country: 0.052
+
+distribution_terminal_manufacturing:
+  desktop_average_lifetime_years: 5
+  desktop_average_daily_use_hours_per_day: 2.02
+  desktop_manufacturing_cost_kgco2: 175
+
+  tv_average_lifetime_years: 8
+  tv_average_daily_use_hours_per_day: 3.85
+  tv_manufacturing_cost_kgco2: 360
+
+  tablet_average_lifetime_years: 3
+  tablet_average_daily_use_hours_per_day: 1.50
+  tablet_manufacturing_cost_kgco2: 75.9
+
+  smart_phone_average_lifetime_years: 2.5
+  smart_phone_average_daily_use_hours_per_day: 2.7
+  smart_phone_manufacturing_cost_kgco2: 84
