@@ -23,7 +23,7 @@ A contributor to an open-source project on GitHub is someone who makes changes o
 - **Participate in Documentation**: They can help improve the project's documentation, which is crucial for helping new users understand how to use the project.
 - **Review Changes**: Contributors can also review others' pull requests, providing feedback and helping ensure the code is ready to be merged.
 
-### Triage: Everyone who has requested access to view the code
+### Triage: [Auriane de Premilhat](https://github.com/adeprem), [BLawrence1](https://github.com/BLawrence1), [Emma Mulitz](https://github.com/EmmaLouise2018), [glesserd](https://github.com/glesserd), [hTgp3eR](https://github.com/hTgp3eR), [Guillaume Lochon](https://github.com/Judor), [Jonathan Shilale](https://github.com/JonShilale), [lumenghe](https://github.com/lumenghe), [fjamin](https://github.com/fjamin), [marineanis](https://github.com/marineanis), [matthieularere-msq](https://github.com/matthieularere-msq), [poneyponey](https://github.com/poneyponey), [qdonnars](https://github.com/qdonnars), [VincentPoncet](https://github.com/VincentPoncet), [SimonSeenThis](https://github.com/SimonSeenThis), [snoller](https://github.com/snoller)
 Triage in an open-source project on GitHub is an important process that helps manage issues and pull requests. Typical triage tasks include:
 - **Validation of Issues or Pull Requests**: Verifying if a reported issue is real and reproducible, or if a pull request is relevant and functions as intended.
 - **Testing Pull Requests**: Merging a pull request into your local copy of the project and testing the changes. You can then add your test results as a comment on the pull request.
