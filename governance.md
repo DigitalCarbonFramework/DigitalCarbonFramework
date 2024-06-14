@@ -28,7 +28,7 @@ A contributor to an open-source project on GitHub is someone who makes changes o
 - **Participate in Documentation**: They can help improve the project's documentation, which is crucial for helping new users understand how to use the project.
 - **Review Changes**: Contributors can also review others' pull requests, providing feedback and helping ensure the code is ready to be merged.
 
-### Triage: [Auriane de Premilhat](https://github.com/adeprem), [Emma Mulitz](https://github.com/EmmaLouise2018), [Eddy Meunier](https://github.com/hTgp3eR), [Guillaume Lochon](https://github.com/Judor), [Jonathan Shilale](https://github.com/JonShilale), [Marine Anis](https://github.com/marineanis), [Matthieu Larère](https://github.com/matthieularere-msq), [Quentin Donnars](https://github.com/qdonnars), [Simon Johansson](https://github.com/SimonSeenThis), [Vincent Poncet](https://github.com/VincentPoncet)
+### Triage: Early reviewers
 
 Triage in an open-source project on GitHub is an important process that helps manage issues and pull requests. Typical triage tasks include:
 
