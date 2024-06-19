@@ -1,6 +1,6 @@
 from carbon import computation_logger, compute_footprints, logger
 from carbon.compute_footprints import Co2Cost
-from carbon.oneframe_digital import Framework
+from carbon.digital_carbon_framework import Framework
 from carbon.utils import Distribution
 
 if __name__ == "__main__":
