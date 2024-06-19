@@ -1,5 +1,5 @@
 """
-This is the python implementation of the OneframeDigital referential to compute the carbon emissions of an advertising campaign.
+This is the python implementation of the DigitalCarbonFramework referential to compute the carbon emissions of an advertising campaign.
 """
 
 import os
@@ -262,7 +262,7 @@ class Framework:
         if config_file is None:
             logger.debug("Loading default config")
             config_file = os.path.join(
-                os.path.dirname(__file__), "oneframe_digital.yml"
+                os.path.dirname(__file__), "digital_carbon_framework.yml"
             )
 
         with open(config_file, "r") as file:

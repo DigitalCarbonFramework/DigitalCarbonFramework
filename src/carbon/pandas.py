@@ -4,7 +4,7 @@ import pandas as pd
 
 from carbon import logger
 from carbon.compute_footprints import Distribution
-from carbon.oneframe_digital import Framework
+from carbon.digital_carbon_framework  import Framework
 
 
 def get_impressions_cost_aggregator(

@@ -1,9 +1,9 @@
 import unittest
 
-from carbon import oneframe_digital
+from carbon import digital_carbon_framework
 from carbon.compute_footprints import Co2Cost, impressions_cost
 
-DEVICES_REPARTITION = oneframe_digital.Distribution(
+DEVICES_REPARTITION = digital_carbon_framework.Distribution(
     weights={
         "desktop": 10,
         "smart_phone": 20,
@@ -13,9 +13,9 @@ DEVICES_REPARTITION = oneframe_digital.Distribution(
 )
 
 
-class OneframeDigitalTest(unittest.TestCase):
+class DigitalCarbonTest(unittest.TestCase):
     def test_co2_full_direct(self):
-        campaign = oneframe_digital.Framework.load()
+        campaign = digital_carbon_framework.Framework.load()
         self.assertAlmostEqual(
             impressions_cost(
                 campaign,
@@ -30,7 +30,7 @@ class OneframeDigitalTest(unittest.TestCase):
         )
 
     def test_co2_full_programmatic(self):
-        campaign = oneframe_digital.Framework.load()
+        campaign = digital_carbon_framework.Framework.load()
         self.assertAlmostEqual(
             impressions_cost(
                 campaign,
@@ -45,7 +45,7 @@ class OneframeDigitalTest(unittest.TestCase):
         )
 
     def test_change_target_country(self):
-        campaign = oneframe_digital.Framework.load()
+        campaign = digital_carbon_framework.Framework.load()
         campaign.change_target_country(alpha_code="DEU")
         self.assertAlmostEqual(
             impressions_cost(
