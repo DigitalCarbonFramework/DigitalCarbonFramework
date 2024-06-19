@@ -194,4 +194,4 @@ print(f'The carbon emissions of a number of ad calls is: {co2_adcalls.overall.to
 
 Initially developped [@greenbids.ai](https://greenbids.ai).
 
-Based on CarbonDigital framework.
+Based on DigitalCarbon framework.
