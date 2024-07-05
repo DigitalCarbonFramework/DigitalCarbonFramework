@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>carbon.compute_footprints &#8212; ad-carbon-calculation-framework 1.O documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=143ca478"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for carbon.compute_footprints</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains functions to compute the Co2 cost of bids only, and of ad calls.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="kn">from</span> <span class="nn">carbon</span> <span class="kn">import</span> <span class="n">computation_logger</span>
+<span class="kn">from</span> <span class="nn">carbon.utils</span> <span class="kn">import</span> <span class="n">Distribution</span>
+
+
+<div class="viewcode-block" id="Co2Cost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.Co2Cost">[docs]</a>
+<span class="k">class</span> <span class="nc">Co2Cost</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the Co2 cost of a component of the programmatic chain&quot;&quot;&quot;</span>
+
+    <span class="n">use</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to the utilisation of the component&quot;&quot;&quot;</span>
+    <span class="n">manufacturing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to the fabrication, use and life cycle of the component&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Co2Cost&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">use</span><span class="p">,</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">manufacturing</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">manufacturing</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the total kgco2 cost of a Co2Cost object.</span>
+
+<span class="sd">        :return: Return the total kgco2 cost of a Co2Cost object.</span>
+<span class="sd">        :rtype: float</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">use</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufacturing</span></div>
+
+
+
+<span class="k">class</span> <span class="nc">_ShowMixin</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixin to pretty print costs.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">overall</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shows</span><span class="p">(),</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">shows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> object.&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Co2Cost</span><span class="p">):</span>
+                <span class="n">use</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">use</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">man</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">manufacturing</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&gt;32s</span><span class="si">}</span><span class="s2">: </span><span class="se">\t</span><span class="s2">use: </span><span class="si">{</span><span class="n">use</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> manufacture: </span><span class="si">{</span><span class="n">man</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">use</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">overall</span><span class="o">.</span><span class="n">use</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">overall</span><span class="o">.</span><span class="n">manufacturing</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Overall&#39;</span><span class="si">:</span><span class="s2">&gt;32s</span><span class="si">}</span><span class="s2">: </span><span class="se">\t</span><span class="s2">use: </span><span class="si">{</span><span class="n">use</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> manufacture: </span><span class="si">{</span><span class="n">man</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Co2CampaignCost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.Co2CampaignCost">[docs]</a>
+<span class="k">class</span> <span class="nc">Co2CampaignCost</span><span class="p">(</span><span class="n">_ShowMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class summerizing the Co2 cost of the different elements of the programmatic chain, as the total cost of the campaign.&quot;&quot;&quot;</span>
+
+    <span class="n">kgco2_distrib_server</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to server usage, for the distribution.&quot;&quot;&quot;</span>
+    <span class="n">kgco2_distrib_network</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to network usage, for the distribution.&quot;&quot;&quot;</span>
+    <span class="n">kgco2_distrib_terminal</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to terminal usage, for the distribution.&quot;&quot;&quot;</span>
+    <span class="n">kgco2_allocation_network</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to network usage, for the allocation.&quot;&quot;&quot;</span>
+    <span class="n">kgco2_allocation_server</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to server usage, for the allocation.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">overall</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Co2Cost: return a Co2Cost object combining the CO2 emissions of the 5 attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_distrib_server</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_distrib_network</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_distrib_terminal</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_network</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_server</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BidCost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.BidCost">[docs]</a>
+<span class="k">class</span> <span class="nc">BidCost</span><span class="p">(</span><span class="n">_ShowMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the Co2 costs of bids.&quot;&quot;&quot;</span>
+
+    <span class="n">kgco2_allocation_network</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to network usage&quot;&quot;&quot;</span>
+    <span class="n">kgco2_allocation_server</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to server usage&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">overall</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_network</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_server</span></div>
+
+
+
+<div class="viewcode-block" id="AdcallCost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.AdcallCost">[docs]</a>
+<span class="k">class</span> <span class="nc">AdcallCost</span><span class="p">(</span><span class="n">_ShowMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the Co2 costs of ad calls.&quot;&quot;&quot;</span>
+
+    <span class="n">kgco2_allocation_network</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to network usage&quot;&quot;&quot;</span>
+    <span class="n">kgco2_allocation_server</span><span class="p">:</span> <span class="n">Co2Cost</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Co2 cost associated to server usage&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">overall</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_network</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_allocation_server</span></div>
+
+
+
+<div class="viewcode-block" id="bids_cost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.bids_cost">[docs]</a>
+<span class="k">def</span> <span class="nf">bids_cost</span><span class="p">(</span><span class="n">framework</span><span class="p">,</span> <span class="n">nb_bids</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BidCost</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the kgco2 cost of a number of bids.</span>
+<span class="sd">    A single bid can be approximated as direct buying process. However, due to internal process and calls when bidding, we estimate the number of paths activated to be 4.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        framework (Framework): Framework object</span>
+<span class="sd">        nb_bids (int): number of bids.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        BidCost: a BidCost object containing the Co2 cost of a number of bids.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting bids_cost for </span><span class="si">{</span><span class="n">nb_bids</span><span class="si">}</span><span class="s2"> bids.&quot;</span><span class="p">)</span>
+
+    <span class="n">allocation_factor</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">bid_cost</span> <span class="o">=</span> <span class="n">BidCost</span><span class="p">(</span>
+        <span class="n">kgco2_allocation_network</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_network</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_bids</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_allocation_server</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_server</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_bids</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">bid_cost</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bid_cost</span></div>
+
+
+
+<div class="viewcode-block" id="adcalls_cost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.adcalls_cost">[docs]</a>
+<span class="k">def</span> <span class="nf">adcalls_cost</span><span class="p">(</span>
+    <span class="n">framework</span><span class="p">,</span> <span class="n">nb_ad_calls</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">creative_type</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;video&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdcallCost</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the kgco2 cost of a number of ad calls.</span>
+<span class="sd">    We approximate the number of SSPs connected to be 10 on average for each prebid auction.</span>
+<span class="sd">    The Framework defines a number of paths activated at each bid: 1 for direct auction, 100 for video ad, 350 for display ad.</span>
+<span class="sd">    Thus, each adcall activates 10 paths for a video ad, 35 for a display ad.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        framework (Framework): Framework object</span>
+<span class="sd">        nb_ad_calls (int): number of ad calls</span>
+<span class="sd">        creative_type (typing.Literal[&amp;quot;video&amp;quot;, &amp;quot;display&amp;quot;]): Type of the creative</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        AdcallCost: a AdcallCost object containing the Co2 cost of a number of ad calls.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Starting adcall_cost for </span><span class="si">{</span><span class="n">nb_ad_calls</span><span class="si">}</span><span class="s2"> ad calls. Creative type is </span><span class="si">{</span><span class="n">creative_type</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">allocation_factor</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">framework</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">nb_paths_video</span>
+        <span class="k">if</span> <span class="n">creative_type</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span>
+        <span class="k">else</span> <span class="n">framework</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">nb_paths_display</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
+
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Allocation factor is set to </span><span class="si">{</span><span class="n">allocation_factor</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="n">adcall_cost</span> <span class="o">=</span> <span class="n">AdcallCost</span><span class="p">(</span>
+        <span class="n">kgco2_allocation_network</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_network</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_ad_calls</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_allocation_server</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_server</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_ad_calls</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">adcall_cost</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">adcall_cost</span></div>
+
+
+
+<div class="viewcode-block" id="impressions_cost">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.compute_footprints.impressions_cost">[docs]</a>
+<span class="k">def</span> <span class="nf">impressions_cost</span><span class="p">(</span>
+    <span class="n">framework</span><span class="p">,</span>
+    <span class="n">nb_impressions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">creative_type</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;video&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span><span class="p">],</span>
+    <span class="n">allocation</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;direct&quot;</span><span class="p">,</span> <span class="s2">&quot;programmatic&quot;</span><span class="p">],</span>
+    <span class="n">creative_size_ko</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">devices_repartition</span><span class="p">:</span> <span class="n">Distribution</span><span class="p">,</span>
+    <span class="n">creative_avg_view_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2CampaignCost</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the kgco2 cost of an advertising campaign.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nb_impressions (int): Total number of impressions</span>
+<span class="sd">        creative_type (typing.Literal[&amp;quot;video&amp;quot;, &amp;quot;display&amp;quot;]): Type of the creative</span>
+<span class="sd">        allocation (typing.Literal[&amp;quot;direct&amp;quot;, &amp;quot;programmatic&amp;quot;]): Campaign allocation type</span>
+<span class="sd">        creative_size_ko (float): Size of the creative, in ko (kB)</span>
+<span class="sd">        devices_repartition (Distribution): Device delivery repartition</span>
+<span class="sd">        creative_avg_view_s (float, optional): average duration view of the creative, in seconds. Mandatory for a display creative. Defaults to 3.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Co2CampaignCost: Carbon cost of the campaign</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Starting impression_costs for </span><span class="si">{</span><span class="n">nb_impressions</span><span class="si">}</span><span class="s2"> impressions.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Asserting creative_type either video or display&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">creative_type</span> <span class="o">==</span> <span class="s2">&quot;display&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">creative_type</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span>
+    <span class="p">),</span> <span class="s2">&quot;creative_type is either &#39;display&#39; or &#39;video&#39; &quot;</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;creative_type field: correct&quot;</span><span class="p">)</span>
+
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Asserting allocation either direct or programmatic&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">allocation</span> <span class="o">==</span> <span class="s2">&quot;programmatic&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">allocation</span> <span class="o">==</span> <span class="s2">&quot;direct&quot;</span>
+    <span class="p">),</span> <span class="s2">&quot;allocation is either &#39;programmatic&#39; or &#39;direct&#39; &quot;</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;allocation field: correct&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">creative_type</span> <span class="o">==</span> <span class="s2">&quot;display&quot;</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">creative_avg_view_s</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+        <span class="p">),</span> <span class="s2">&quot;creative_avg_view_s is mandatory for creative_type=&#39;display&#39; &quot;</span>
+
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Setting allocation_factor&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allocation</span> <span class="o">==</span> <span class="s2">&quot;direct&quot;</span><span class="p">:</span>
+        <span class="n">allocation_factor</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">allocation_factor</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">framework</span><span class="o">.</span><span class="n">allocation_factor</span>
+            <span class="o">*</span> <span class="n">framework</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">nb_paths_video</span>
+            <span class="k">if</span> <span class="n">creative_type</span> <span class="o">==</span> <span class="s2">&quot;video&quot;</span>
+            <span class="k">else</span> <span class="n">framework</span><span class="o">.</span><span class="n">allocation_factor</span>
+            <span class="o">*</span> <span class="n">framework</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">nb_paths_display</span>
+        <span class="p">)</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;allocation_factor setted to </span><span class="si">{</span><span class="n">allocation_factor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">co2_campaign_cost</span> <span class="o">=</span> <span class="n">Co2CampaignCost</span><span class="p">(</span>
+        <span class="n">kgco2_distrib_server</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_distrib_server</span><span class="p">,</span> <span class="n">creative_size_ko</span> <span class="o">*</span> <span class="n">nb_impressions</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_distrib_network</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_distrib_network</span><span class="p">,</span> <span class="n">creative_size_ko</span> <span class="o">*</span> <span class="n">nb_impressions</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_distrib_terminal</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_distrib_terminal</span><span class="p">(</span><span class="n">devices_repartition</span><span class="p">),</span>
+                <span class="n">creative_avg_view_s</span> <span class="o">*</span> <span class="n">nb_impressions</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_allocation_network</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_network</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_impressions</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">kgco2_allocation_server</span><span class="o">=</span><span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">framework</span><span class="o">.</span><span class="n">multiply_attributes</span><span class="p">(</span>
+                <span class="n">framework</span><span class="o">.</span><span class="n">kgco2_allocation_server</span><span class="p">,</span> <span class="n">allocation_factor</span> <span class="o">*</span> <span class="n">nb_impressions</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">computation_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">co2_campaign_cost</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">co2_campaign_cost</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">ad-carbon-calculation-framework</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">carbon</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, OneframeDigital.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

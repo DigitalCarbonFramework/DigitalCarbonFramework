@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>carbon package &#8212; ad-carbon-calculation-framework 1.O documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=143ca478"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="carbon" href="modules.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="carbon-package">
+<h1>carbon package<a class="headerlink" href="#carbon-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-carbon.compute_footprints">
+<span id="carbon-compute-footprints-module"></span><h2>carbon.compute_footprints module<a class="headerlink" href="#module-carbon.compute_footprints" title="Link to this heading">¶</a></h2>
+<p>Contains functions to compute the Co2 cost of bids only, and of ad calls.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.compute_footprints.AdcallCost">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">AdcallCost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#AdcallCost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.AdcallCost" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the Co2 costs of ad calls.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.AdcallCost.kgco2_allocation_network">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.AdcallCost.kgco2_allocation_network" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to network usage</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.AdcallCost.kgco2_allocation_server">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.AdcallCost.kgco2_allocation_server" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to server usage</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.compute_footprints.AdcallCost.overall">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overall</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.AdcallCost.overall" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.compute_footprints.BidCost">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">BidCost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#BidCost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.BidCost" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the Co2 costs of bids.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.BidCost.kgco2_allocation_network">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.BidCost.kgco2_allocation_network" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to network usage</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.BidCost.kgco2_allocation_server">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.BidCost.kgco2_allocation_server" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to server usage</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.compute_footprints.BidCost.overall">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overall</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.BidCost.overall" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">Co2CampaignCost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_distrib_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_distrib_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_distrib_terminal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kgco2_allocation_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#Co2CampaignCost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Class summerizing the Co2 cost of the different elements of the programmatic chain, as the total cost of the campaign.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.kgco2_allocation_network">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.kgco2_allocation_network" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to network usage, for the allocation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.kgco2_allocation_server">
+<span class="sig-name descname"><span class="pre">kgco2_allocation_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.kgco2_allocation_server" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to server usage, for the allocation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_network">
+<span class="sig-name descname"><span class="pre">kgco2_distrib_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_network" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to network usage, for the distribution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_server">
+<span class="sig-name descname"><span class="pre">kgco2_distrib_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_server" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to server usage, for the distribution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_terminal">
+<span class="sig-name descname"><span class="pre">kgco2_distrib_terminal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.kgco2_distrib_terminal" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to terminal usage, for the distribution.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2CampaignCost.overall">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overall</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.compute_footprints.Co2CampaignCost.overall" title="Link to this definition">¶</a></dt>
+<dd><p>return a Co2Cost object combining the CO2 emissions of the 5 attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost">Co2Cost</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2Cost">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">Co2Cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#Co2Cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.Co2Cost" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the Co2 cost of a component of the programmatic chain</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2Cost.manufacturing">
+<span class="sig-name descname"><span class="pre">manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.compute_footprints.Co2Cost.manufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to the fabrication, use and life cycle of the component</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2Cost.total">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total</span></span><a class="headerlink" href="#carbon.compute_footprints.Co2Cost.total" title="Link to this definition">¶</a></dt>
+<dd><p>Return the total kgco2 cost of a Co2Cost object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return the total kgco2 cost of a Co2Cost object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.compute_footprints.Co2Cost.use">
+<span class="sig-name descname"><span class="pre">use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.compute_footprints.Co2Cost.use" title="Link to this definition">¶</a></dt>
+<dd><p>Co2 cost associated to the utilisation of the component</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.compute_footprints.adcalls_cost">
+<span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">adcalls_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_ad_calls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creative_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'video'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'display'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.AdcallCost" title="carbon.compute_footprints.AdcallCost"><span class="pre">AdcallCost</span></a></span></span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#adcalls_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.adcalls_cost" title="Link to this definition">¶</a></dt>
+<dd><p>Return the kgco2 cost of a number of ad calls.
+We approximate the number of SSPs connected to be 10 on average for each prebid auction.
+The Framework defines a number of paths activated at each bid: 1 for direct auction, 100 for video ad, 350 for display ad.
+Thus, each adcall activates 10 paths for a video ad, 35 for a display ad.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>framework</strong> (<a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><em>Framework</em></a>) – Framework object</p></li>
+<li><p><strong>nb_ad_calls</strong> (<em>int</em>) – number of ad calls</p></li>
+<li><p><strong>creative_type</strong> (<em>Literal</em><em>[</em><em>&amp;quot;video&amp;quot;</em><em>, </em><em>&amp;quot;display&amp;quot;</em><em>]</em>) – Type of the creative</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a AdcallCost object containing the Co2 cost of a number of ad calls.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#carbon.compute_footprints.AdcallCost" title="carbon.compute_footprints.AdcallCost">AdcallCost</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.compute_footprints.bids_cost">
+<span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">bids_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_bids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.BidCost" title="carbon.compute_footprints.BidCost"><span class="pre">BidCost</span></a></span></span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#bids_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.bids_cost" title="Link to this definition">¶</a></dt>
+<dd><p>Return the kgco2 cost of a number of bids.
+A single bid can be approximated as direct buying process. However, due to internal process and calls when bidding, we estimate the number of paths activated to be 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>framework</strong> (<a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><em>Framework</em></a>) – Framework object</p></li>
+<li><p><strong>nb_bids</strong> (<em>int</em>) – number of bids.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a BidCost object containing the Co2 cost of a number of bids.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#carbon.compute_footprints.BidCost" title="carbon.compute_footprints.BidCost">BidCost</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.compute_footprints.impressions_cost">
+<span class="sig-prename descclassname"><span class="pre">carbon.compute_footprints.</span></span><span class="sig-name descname"><span class="pre">impressions_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_impressions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creative_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'video'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'display'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'direct'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'programmatic'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creative_size_ko</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices_repartition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.utils.Distribution" title="carbon.utils.Distribution"><span class="pre">Distribution</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">creative_avg_view_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.Co2CampaignCost" title="carbon.compute_footprints.Co2CampaignCost"><span class="pre">Co2CampaignCost</span></a></span></span><a class="reference internal" href="../_modules/carbon/compute_footprints.html#impressions_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.compute_footprints.impressions_cost" title="Link to this definition">¶</a></dt>
+<dd><p>Return the kgco2 cost of an advertising campaign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_impressions</strong> (<em>int</em>) – Total number of impressions</p></li>
+<li><p><strong>creative_type</strong> (<em>Literal</em><em>[</em><em>&amp;quot;video&amp;quot;</em><em>, </em><em>&amp;quot;display&amp;quot;</em><em>]</em>) – Type of the creative</p></li>
+<li><p><strong>allocation</strong> (<em>Literal</em><em>[</em><em>&amp;quot;direct&amp;quot;</em><em>, </em><em>&amp;quot;programmatic&amp;quot;</em><em>]</em>) – Campaign allocation type</p></li>
+<li><p><strong>creative_size_ko</strong> (<em>float</em>) – Size of the creative, in ko (kB)</p></li>
+<li><p><strong>devices_repartition</strong> (<a class="reference internal" href="#carbon.utils.Distribution" title="carbon.utils.Distribution"><em>Distribution</em></a>) – Device delivery repartition</p></li>
+<li><p><strong>creative_avg_view_s</strong> (<em>float</em><em>, </em><em>optional</em>) – average duration view of the creative, in seconds. Mandatory for a display creative. Defaults to 3.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Carbon cost of the campaign</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#carbon.compute_footprints.Co2CampaignCost" title="carbon.compute_footprints.Co2CampaignCost">Co2CampaignCost</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-carbon.digital_carbon_framework">
+<span id="carbon-digital-carbon-framework-module"></span><h2>carbon.digital_carbon_framework module<a class="headerlink" href="#module-carbon.digital_carbon_framework" title="Link to this heading">¶</a></h2>
+<p>This is the python implementation of the DigitalCarbonFramework referential to compute the carbon emissions of an advertising campaign.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.digital_carbon_framework.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_power_watt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_lifetime_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_daily_use_hours_per_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Device" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a target device used in programmatic advertising.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device.average_daily_use_hours_per_day">
+<span class="sig-name descname"><span class="pre">average_daily_use_hours_per_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Device.average_daily_use_hours_per_day" title="Link to this definition">¶</a></dt>
+<dd><p>Duration of daily device use (in hours)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device.average_lifetime_years">
+<span class="sig-name descname"><span class="pre">average_lifetime_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Device.average_lifetime_years" title="Link to this definition">¶</a></dt>
+<dd><p>Average lifetime lifespan (in hours)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device.average_power_watt">
+<span class="sig-name descname"><span class="pre">average_power_watt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Device.average_power_watt" title="Link to this definition">¶</a></dt>
+<dd><p>Average device power in active mode (in watts)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device.manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Device.manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of the device, including manufacturing, transport and end of life on its lifespan (excluding use)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Device.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Device.name" title="Link to this definition">¶</a></dt>
+<dd><p>Name of the device</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.digital_carbon_framework.</span></span><span class="sig-name descname"><span class="pre">Framework</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allocation_network_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse" title="carbon.digital_carbon_framework.Framework.AllocationNetworkUse"><span class="pre">AllocationNetworkUse</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocation_network_manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing" title="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing"><span class="pre">AllocationNetworkManufacturing</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocation_servers_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse" title="carbon.digital_carbon_framework.Framework.AllocationServersUse"><span class="pre">AllocationServersUse</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocation_servers_manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing" title="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing"><span class="pre">AllocationServersManufacturing</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocation_network_servers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers" title="carbon.digital_carbon_framework.Framework.AllocationAndServers"><span class="pre">AllocationAndServers</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_server_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse" title="carbon.digital_carbon_framework.Framework.DistributionServerUse"><span class="pre">DistributionServerUse</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_server_manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionServerManufacturing"><span class="pre">DistributionServerManufacturing</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_network_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse" title="carbon.digital_carbon_framework.Framework.DistributionNetworkUse"><span class="pre">DistributionNetworkUse</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_network_manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing"><span class="pre">DistributionNetworkManufacturing</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_terminal_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse" title="carbon.digital_carbon_framework.Framework.DistributionTerminalUse"><span class="pre">DistributionTerminalUse</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_terminal_manufacturing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing"><span class="pre">DistributionTerminalManufacturing</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representating all the component of the programmatic advertising chain.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationAndServers">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AllocationAndServers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_paths_display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_paths_video</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publisher_activated_paths_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssp_activated_paths_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.AllocationAndServers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the to the fabrication, utilization and life cycle of both network &amp;  servers for the Allocation part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationAndServers.nb_paths_display">
+<span class="sig-name descname"><span class="pre">nb_paths_display</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers.nb_paths_display" title="Link to this definition">¶</a></dt>
+<dd><p>Programmatic - Display - number of potential active paths</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationAndServers.nb_paths_video">
+<span class="sig-name descname"><span class="pre">nb_paths_video</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers.nb_paths_video" title="Link to this definition">¶</a></dt>
+<dd><p>Programmatic - Instream video &amp; other modes - number of potential active paths</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationAndServers.publisher_activated_paths_share">
+<span class="sig-name descname"><span class="pre">publisher_activated_paths_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers.publisher_activated_paths_share" title="Link to this definition">¶</a></dt>
+<dd><p>Share of potential paths activated at each print (publishers)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationAndServers.ssp_activated_paths_share">
+<span class="sig-name descname"><span class="pre">ssp_activated_paths_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers.ssp_activated_paths_share" title="Link to this definition">¶</a></dt>
+<dd><p>Share of potential paths activated at each print (ssp)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AllocationNetworkManufacturing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_requests_per_active_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_https_request_k0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_network_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_1ko_transport_on_fixed_network_kgCo2_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.AllocationNetworkManufacturing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the fabrication, utilization and life cycle of the network for the Allocation part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.fixed_network_use">
+<span class="sig-name descname"><span class="pre">fixed_network_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.fixed_network_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.impact_1ko_transport_on_fixed_network_kgCo2_per_kO">
+<span class="sig-name descname"><span class="pre">impact_1ko_transport_on_fixed_network_kgCo2_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.impact_1ko_transport_on_fixed_network_kgCo2_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Impact of transporting 1 KB of data via fixed network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.mean_https_request_k0">
+<span class="sig-name descname"><span class="pre">mean_https_request_k0</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.mean_https_request_k0" title="Link to this definition">¶</a></dt>
+<dd><p>Average weight of an HTTP request in kilo bytes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.nb_requests_per_active_path">
+<span class="sig-name descname"><span class="pre">nb_requests_per_active_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.nb_requests_per_active_path" title="Link to this definition">¶</a></dt>
+<dd><p>Number of requests per active path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.uncertainty_margin">
+<span class="sig-name descname"><span class="pre">uncertainty_margin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing.uncertainty_margin" title="Link to this definition">¶</a></dt>
+<dd><p>Uncertainty margin</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AllocationNetworkUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_requests_per_active_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_https_request_k0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_network_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_fixed_network_in_use_kWh_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_trafic_in_datacenter_country_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.AllocationNetworkUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the utilization of the network for the Allocation part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.emission_factor_server">
+<span class="sig-name descname"><span class="pre">emission_factor_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.emission_factor_server" title="Link to this definition">¶</a></dt>
+<dd><p>Emission factor for the electricity consumed by the servers (to be adapted depending on the location of the servers) (kgCO2e/kWh)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.energy_efficiency_fixed_network_in_use_kWh_per_kO">
+<span class="sig-name descname"><span class="pre">energy_efficiency_fixed_network_in_use_kWh_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.energy_efficiency_fixed_network_in_use_kWh_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Average energy efficiency of the fixed network in the use phase (kWh/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.fixed_network_use">
+<span class="sig-name descname"><span class="pre">fixed_network_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.fixed_network_use" title="Link to this definition">¶</a></dt>
+<dd><p>Average share of fixed network usage in programmatic</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.mean_https_request_k0">
+<span class="sig-name descname"><span class="pre">mean_https_request_k0</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.mean_https_request_k0" title="Link to this definition">¶</a></dt>
+<dd><p>Average weight of an HTTP request in kilo bytes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.nb_requests_per_active_path">
+<span class="sig-name descname"><span class="pre">nb_requests_per_active_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.nb_requests_per_active_path" title="Link to this definition">¶</a></dt>
+<dd><p>Number of requests per active path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.network_trafic_in_datacenter_country_share">
+<span class="sig-name descname"><span class="pre">network_trafic_in_datacenter_country_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.network_trafic_in_datacenter_country_share" title="Link to this definition">¶</a></dt>
+<dd><p>Share of network traffic in the country of the data center in programmatic</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationNetworkUse.uncertainty_margin">
+<span class="sig-name descname"><span class="pre">uncertainty_margin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse.uncertainty_margin" title="Link to this definition">¶</a></dt>
+<dd><p>Uncertainty margin</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AllocationServersManufacturing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_server_requests_per_active_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_vm_servers_per_physic_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_time_calculation_during_auction_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_consumption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.AllocationServersManufacturing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the to the fabrication, utilization and life cycle  of the servers for the Allocation part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.annual_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">annual_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.annual_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Server calculation time during an auction (hour)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.nb_server_requests_per_active_path">
+<span class="sig-name descname"><span class="pre">nb_server_requests_per_active_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.nb_server_requests_per_active_path" title="Link to this definition">¶</a></dt>
+<dd><p>Number of servers requested per active path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.nb_vm_servers_per_physic_server">
+<span class="sig-name descname"><span class="pre">nb_vm_servers_per_physic_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.nb_vm_servers_per_physic_server" title="Link to this definition">¶</a></dt>
+<dd><p>Annual carbon impact - manufacturing and end of life of an average physical server (kgCO2e)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.server_consumption">
+<span class="sig-name descname"><span class="pre">server_consumption</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.server_consumption" title="Link to this definition">¶</a></dt>
+<dd><p>Modeling of server consumption linked to uses excluding auctions and distribution (reporting, machine learning, back-end, etc.)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.server_time_calculation_during_auction_s">
+<span class="sig-name descname"><span class="pre">server_time_calculation_during_auction_s</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing.server_time_calculation_during_auction_s" title="Link to this definition">¶</a></dt>
+<dd><p>Number of virtual servers (VMs) per physical server</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AllocationServersUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_server_requests_per_active_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_time_calculation_during_auction_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm_mean_power_in_kW</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_consumption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.AllocationServersUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the utilization of the servers for the Allocation part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.emission_factor_country">
+<span class="sig-name descname"><span class="pre">emission_factor_country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.emission_factor_country" title="Link to this definition">¶</a></dt>
+<dd><p>Electricity emission factor in target country</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.emission_factor_worldwide">
+<span class="sig-name descname"><span class="pre">emission_factor_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.emission_factor_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>International electricity emission factor for IT uses</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.nb_server_requests_per_active_path">
+<span class="sig-name descname"><span class="pre">nb_server_requests_per_active_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.nb_server_requests_per_active_path" title="Link to this definition">¶</a></dt>
+<dd><p>Number of servers requested per active path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.pue">
+<span class="sig-name descname"><span class="pre">pue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.pue" title="Link to this definition">¶</a></dt>
+<dd><p>Average PUE of a data center</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.server_consumption">
+<span class="sig-name descname"><span class="pre">server_consumption</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.server_consumption" title="Link to this definition">¶</a></dt>
+<dd><p>Modeling of server consumption linked to uses excluding auctions and distribution (reporting, machine learning, back-end, etc.)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.server_share_local">
+<span class="sig-name descname"><span class="pre">server_share_local</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.server_share_local" title="Link to this definition">¶</a></dt>
+<dd><p>Share of servers in France</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.server_share_worldwide">
+<span class="sig-name descname"><span class="pre">server_share_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.server_share_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>Share of international servers</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.server_time_calculation_during_auction_s">
+<span class="sig-name descname"><span class="pre">server_time_calculation_during_auction_s</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.server_time_calculation_during_auction_s" title="Link to this definition">¶</a></dt>
+<dd><p>Server calculation time during an auction (hour)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.AllocationServersUse.vm_mean_power_in_kW">
+<span class="sig-name descname"><span class="pre">vm_mean_power_in_kW</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse.vm_mean_power_in_kW" title="Link to this definition">¶</a></dt>
+<dd><p>Average power of a virtual server (Watt)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionNetworkManufacturing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fixed_network_usage_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_mobile_usage_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_cost_on_fixed_network_kgCo2_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_cost_on_mobile_kgCo2_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionNetworkManufacturing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the fabrication, utilization and life cycle of the network for the distribution part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.fixed_mobile_usage_share">
+<span class="sig-name descname"><span class="pre">fixed_mobile_usage_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.fixed_mobile_usage_share" title="Link to this definition">¶</a></dt>
+<dd><p>Average share of mobile usage (4G)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.fixed_network_usage_share">
+<span class="sig-name descname"><span class="pre">fixed_network_usage_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.fixed_network_usage_share" title="Link to this definition">¶</a></dt>
+<dd><p>Average share of fixed network usage (wifi)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.transport_cost_on_fixed_network_kgCo2_per_kO">
+<span class="sig-name descname"><span class="pre">transport_cost_on_fixed_network_kgCo2_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.transport_cost_on_fixed_network_kgCo2_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Impact of transporting 1 KB of data via fixed network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.transport_cost_on_mobile_kgCo2_per_kO">
+<span class="sig-name descname"><span class="pre">transport_cost_on_mobile_kgCo2_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing.transport_cost_on_mobile_kgCo2_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Impact of transporting 1 KB of data via mobile network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionNetworkUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fixed_network_usage_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_mobile_usage_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_datacenter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_fixed_network_in_use_kWh_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_mobile_in_use_kWh_per_kO</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_target_country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionNetworkUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the utilization of the network for the distribution part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.emission_factor_target_country">
+<span class="sig-name descname"><span class="pre">emission_factor_target_country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.emission_factor_target_country" title="Link to this definition">¶</a></dt>
+<dd><p>Emission factor of the electricity consumed by the audience (kgCO2e/kWh)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.emission_factor_worldwide">
+<span class="sig-name descname"><span class="pre">emission_factor_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.emission_factor_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>Emission factor of the electricity consumed worldwide  (kgCO2e/kWh)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.energy_efficiency_fixed_network_in_use_kWh_per_kO">
+<span class="sig-name descname"><span class="pre">energy_efficiency_fixed_network_in_use_kWh_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.energy_efficiency_fixed_network_in_use_kWh_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Average energy efficiency of the fixed network in the use phase (kWh/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.energy_efficiency_mobile_in_use_kWh_per_kO">
+<span class="sig-name descname"><span class="pre">energy_efficiency_mobile_in_use_kWh_per_kO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.energy_efficiency_mobile_in_use_kWh_per_kO" title="Link to this definition">¶</a></dt>
+<dd><p>Average energy efficiency of the mobile network in the use phase (kWh/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.fixed_mobile_usage_share">
+<span class="sig-name descname"><span class="pre">fixed_mobile_usage_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.fixed_mobile_usage_share" title="Link to this definition">¶</a></dt>
+<dd><p>Average share of mobile usage (4G)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.fixed_network_usage_share">
+<span class="sig-name descname"><span class="pre">fixed_network_usage_share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.fixed_network_usage_share" title="Link to this definition">¶</a></dt>
+<dd><p>Average share of fixed network usage (wifi)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.server_share_datacenter">
+<span class="sig-name descname"><span class="pre">server_share_datacenter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.server_share_datacenter" title="Link to this definition">¶</a></dt>
+<dd><p>Share of network traffic in the datacenter country</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionNetworkUse.server_share_local">
+<span class="sig-name descname"><span class="pre">server_share_local</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse.server_share_local" title="Link to this definition">¶</a></dt>
+<dd><p>Share of network traffic in the country of content viewing</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerManufacturing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionServerManufacturing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annual_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth_server_ko_per_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionServerManufacturing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the fabrication, utilization and life cycle of the server for the distribution part</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerManufacturing.annual_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">annual_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing.annual_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of a server reduced to one year of use, including manufacturing, transport and end of life (excluding use) (kgCo2)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerManufacturing.bandwidth_server_ko_per_s">
+<span class="sig-name descname"><span class="pre">bandwidth_server_ko_per_s</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing.bandwidth_server_ko_per_s" title="Link to this definition">¶</a></dt>
+<dd><p>Server bandwidth (Ko/s)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionServerUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pue_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_server_target_country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_server_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_share_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_worldwide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_target_country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionServerUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the utilization of the server for the distribution part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.emission_factor_target_country">
+<span class="sig-name descname"><span class="pre">emission_factor_target_country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.emission_factor_target_country" title="Link to this definition">¶</a></dt>
+<dd><p>Electricity emission factor in the target country (kgCO2e/kWh)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.emission_factor_worldwide">
+<span class="sig-name descname"><span class="pre">emission_factor_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.emission_factor_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>Electricity emission factor worlwide (kgCO2e/kWh)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.energy_efficiency_server_target_country">
+<span class="sig-name descname"><span class="pre">energy_efficiency_server_target_country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.energy_efficiency_server_target_country" title="Link to this definition">¶</a></dt>
+<dd><p>Average energy efficiency of a server the target country (kWh/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.energy_efficiency_server_worldwide">
+<span class="sig-name descname"><span class="pre">energy_efficiency_server_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.energy_efficiency_server_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>Average energy efficiency of a server worldwide (kWh/ko)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.pue_mean">
+<span class="sig-name descname"><span class="pre">pue_mean</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.pue_mean" title="Link to this definition">¶</a></dt>
+<dd><p>Average PUE of a data center</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.server_share_local">
+<span class="sig-name descname"><span class="pre">server_share_local</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.server_share_local" title="Link to this definition">¶</a></dt>
+<dd><p>Share of servers in the target country</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionServerUse.server_share_worldwide">
+<span class="sig-name descname"><span class="pre">server_share_worldwide</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse.server_share_worldwide" title="Link to this definition">¶</a></dt>
+<dd><p>Share of servers worlwide</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionTerminalManufacturing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desktop_average_lifetime_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desktop_average_daily_use_hours_per_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desktop_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tv_average_lifetime_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tv_average_daily_use_hours_per_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tv_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablet_average_lifetime_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablet_average_daily_use_hours_per_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablet_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smart_phone_average_lifetime_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smart_phone_average_daily_use_hours_per_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smart_phone_manufacturing_cost_kgco2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionTerminalManufacturing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the fabrication, utilization and life cycle of the terminals for the distribution part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_average_daily_use_hours_per_day">
+<span class="sig-name descname"><span class="pre">desktop_average_daily_use_hours_per_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_average_daily_use_hours_per_day" title="Link to this definition">¶</a></dt>
+<dd><p>Duration of daily use of a desktop</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_average_lifetime_years">
+<span class="sig-name descname"><span class="pre">desktop_average_lifetime_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_average_lifetime_years" title="Link to this definition">¶</a></dt>
+<dd><p>Average desktop lifespan</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">desktop_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.desktop_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of a desktop, including manufacturing, transport and end of life on its lifespan (excluding use)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_average_daily_use_hours_per_day">
+<span class="sig-name descname"><span class="pre">smart_phone_average_daily_use_hours_per_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_average_daily_use_hours_per_day" title="Link to this definition">¶</a></dt>
+<dd><p>Duration of daily use of a smart phone</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_average_lifetime_years">
+<span class="sig-name descname"><span class="pre">smart_phone_average_lifetime_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_average_lifetime_years" title="Link to this definition">¶</a></dt>
+<dd><p>Average smart phone lifespan</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">smart_phone_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.smart_phone_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of a smart phone, including manufacturing, transport and end of life on its lifespan (excluding use)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_average_daily_use_hours_per_day">
+<span class="sig-name descname"><span class="pre">tablet_average_daily_use_hours_per_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_average_daily_use_hours_per_day" title="Link to this definition">¶</a></dt>
+<dd><p>Duration of daily use of a tablet</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_average_lifetime_years">
+<span class="sig-name descname"><span class="pre">tablet_average_lifetime_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_average_lifetime_years" title="Link to this definition">¶</a></dt>
+<dd><p>Average tablet lifespan</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">tablet_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tablet_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of a tablet, including manufacturing, transport and end of life on its lifespan (excluding use)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_average_daily_use_hours_per_day">
+<span class="sig-name descname"><span class="pre">tv_average_daily_use_hours_per_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_average_daily_use_hours_per_day" title="Link to this definition">¶</a></dt>
+<dd><p>Duration of daily use of a connected tv</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_average_lifetime_years">
+<span class="sig-name descname"><span class="pre">tv_average_lifetime_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_average_lifetime_years" title="Link to this definition">¶</a></dt>
+<dd><p>Average connected tv lifespan</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_manufacturing_cost_kgco2">
+<span class="sig-name descname"><span class="pre">tv_manufacturing_cost_kgco2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing.tv_manufacturing_cost_kgco2" title="Link to this definition">¶</a></dt>
+<dd><p>Average impact of a connected tv, including manufacturing, transport and end of life on its lifespan (excluding use)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionTerminalUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smartphone_usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'app'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'browser'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smart_phone_average_power_watt_app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smart_phone_average_power_watt_browser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tv_average_power_watt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desktop_average_power_watt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablet_average_power_watt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor_target_country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.DistributionTerminalUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters related to the utilization of the terminals for the distribution part.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.desktop_average_power_watt">
+<span class="sig-name descname"><span class="pre">desktop_average_power_watt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.desktop_average_power_watt" title="Link to this definition">¶</a></dt>
+<dd><p>Average computer power in active mode</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.emission_factor_target_country">
+<span class="sig-name descname"><span class="pre">emission_factor_target_country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.emission_factor_target_country" title="Link to this definition">¶</a></dt>
+<dd><p>Emission factor of the electricity consumed by the audience</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smart_phone_average_power_watt_app">
+<span class="sig-name descname"><span class="pre">smart_phone_average_power_watt_app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smart_phone_average_power_watt_app" title="Link to this definition">¶</a></dt>
+<dd><p>Average smartphone power in active mode, for app usage</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smart_phone_average_power_watt_browser">
+<span class="sig-name descname"><span class="pre">smart_phone_average_power_watt_browser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smart_phone_average_power_watt_browser" title="Link to this definition">¶</a></dt>
+<dd><p>Average smartphone power in active mode, for browser usage</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smartphone_usage">
+<span class="sig-name descname"><span class="pre">smartphone_usage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'app'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'browser'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.smartphone_usage" title="Link to this definition">¶</a></dt>
+<dd><p>either ‘app’ or ‘browser’</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.tablet_average_power_watt">
+<span class="sig-name descname"><span class="pre">tablet_average_power_watt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.tablet_average_power_watt" title="Link to this definition">¶</a></dt>
+<dd><p>Average tablet power in active mode</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.DistributionTerminalUse.tv_average_power_watt">
+<span class="sig-name descname"><span class="pre">tv_average_power_watt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse.tv_average_power_watt" title="Link to this definition">¶</a></dt>
+<dd><p>Average tv power in active mode</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.Server">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_efficiency_kwh_per_ko</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.Server" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.Server.emission_factor">
+<span class="sig-name descname"><span class="pre">emission_factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.Server.emission_factor" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.Server.energy_efficiency_kwh_per_ko">
+<span class="sig-name descname"><span class="pre">energy_efficiency_kwh_per_ko</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.Server.energy_efficiency_kwh_per_ko" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.Server.share">
+<span class="sig-name descname"><span class="pre">share</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.Server.share" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.alloc_servers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alloc_servers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.Server" title="carbon.digital_carbon_framework.Framework.Server"><span class="pre">Server</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.alloc_servers" title="Link to this definition">¶</a></dt>
+<dd><p>return: a list of two Server classes, associated to the allocation server usage.
+:rtype: list[Server]</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_factor">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allocation_factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_factor" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_network_manufacturing">
+<span class="sig-name descname"><span class="pre">allocation_network_manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing" title="carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing"><span class="pre">AllocationNetworkManufacturing</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_network_manufacturing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_network_servers">
+<span class="sig-name descname"><span class="pre">allocation_network_servers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationAndServers" title="carbon.digital_carbon_framework.Framework.AllocationAndServers"><span class="pre">AllocationAndServers</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_network_servers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_network_use">
+<span class="sig-name descname"><span class="pre">allocation_network_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationNetworkUse" title="carbon.digital_carbon_framework.Framework.AllocationNetworkUse"><span class="pre">AllocationNetworkUse</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_network_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_servers_manufacturing">
+<span class="sig-name descname"><span class="pre">allocation_servers_manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing" title="carbon.digital_carbon_framework.Framework.AllocationServersManufacturing"><span class="pre">AllocationServersManufacturing</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_servers_manufacturing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.allocation_servers_use">
+<span class="sig-name descname"><span class="pre">allocation_servers_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.AllocationServersUse" title="carbon.digital_carbon_framework.Framework.AllocationServersUse"><span class="pre">AllocationServersUse</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.allocation_servers_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.change_target_country">
+<span class="sig-name descname"><span class="pre">change_target_country</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.change_target_country"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.change_target_country" title="Link to this definition">¶</a></dt>
+<dd><p>Set the emission factors of the specified country</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alpha_code</strong> (<em>str</em>) – alpha_code of the specified country. Support iso2 &amp; iso3 countries (ex: country: ‘France’, alpha_code=’FR’ or alpha_code=’FRA’ supported)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.desktop">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">desktop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Device" title="carbon.digital_carbon_framework.Device"><span class="pre">Device</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.desktop" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distrib_servers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">distrib_servers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.Server" title="carbon.digital_carbon_framework.Framework.Server"><span class="pre">Server</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distrib_servers" title="Link to this definition">¶</a></dt>
+<dd><p>return: a list of two Server classes, associated to the distribution server usage.
+:rtype: list[Server]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_network_manufacturing">
+<span class="sig-name descname"><span class="pre">distribution_network_manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing"><span class="pre">DistributionNetworkManufacturing</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_network_manufacturing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_network_use">
+<span class="sig-name descname"><span class="pre">distribution_network_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionNetworkUse" title="carbon.digital_carbon_framework.Framework.DistributionNetworkUse"><span class="pre">DistributionNetworkUse</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_network_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_server_manufacturing">
+<span class="sig-name descname"><span class="pre">distribution_server_manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionServerManufacturing"><span class="pre">DistributionServerManufacturing</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_server_manufacturing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_server_use">
+<span class="sig-name descname"><span class="pre">distribution_server_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionServerUse" title="carbon.digital_carbon_framework.Framework.DistributionServerUse"><span class="pre">DistributionServerUse</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_server_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_terminal_manufacturing">
+<span class="sig-name descname"><span class="pre">distribution_terminal_manufacturing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing" title="carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing"><span class="pre">DistributionTerminalManufacturing</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_terminal_manufacturing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.distribution_terminal_use">
+<span class="sig-name descname"><span class="pre">distribution_terminal_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Framework.DistributionTerminalUse" title="carbon.digital_carbon_framework.Framework.DistributionTerminalUse"><span class="pre">DistributionTerminalUse</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.distribution_terminal_use" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.emission_factors_dict_iso2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">emission_factors_dict_iso2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.emission_factors_dict_iso2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.emission_factors_dict_iso3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">emission_factors_dict_iso3</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.emission_factors_dict_iso3" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.from_kilo">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_kilo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.from_kilo" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.hours_in_years">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hours_in_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.hours_in_years" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_allocation_network">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kgco2_allocation_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_allocation_network" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_allocation_server">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kgco2_allocation_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_allocation_server" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_device">
+<span class="sig-name descname"><span class="pre">kgco2_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specified_device</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.kgco2_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_device" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_distrib_network">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kgco2_distrib_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_distrib_network" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_distrib_server">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kgco2_distrib_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_distrib_server" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.kgco2_distrib_terminal">
+<span class="sig-name descname"><span class="pre">kgco2_distrib_terminal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devices_repartition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.utils.Distribution" title="carbon.utils.Distribution"><span class="pre">Distribution</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.kgco2_distrib_terminal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.kgco2_distrib_terminal" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.load" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.multiply_attributes">
+<span class="sig-name descname"><span class="pre">multiply_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Co2Cost_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#carbon.compute_footprints.Co2Cost" title="carbon.compute_footprints.Co2Cost"><span class="pre">Co2Cost</span></a></span></span><a class="reference internal" href="../_modules/carbon/digital_carbon_framework.html#Framework.multiply_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.multiply_attributes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.second_in_years">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">second_in_years</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.second_in_years" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.seconds_to_hour">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seconds_to_hour</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.seconds_to_hour" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.smart_phone">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">smart_phone</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Device" title="carbon.digital_carbon_framework.Device"><span class="pre">Device</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.smart_phone" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.tablet">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tablet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Device" title="carbon.digital_carbon_framework.Device"><span class="pre">Device</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.tablet" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.digital_carbon_framework.Framework.tv">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#carbon.digital_carbon_framework.Device" title="carbon.digital_carbon_framework.Device"><span class="pre">Device</span></a></em><a class="headerlink" href="#carbon.digital_carbon_framework.Framework.tv" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-carbon.pandas">
+<span id="carbon-pandas-module"></span><h2>carbon.pandas module<a class="headerlink" href="#module-carbon.pandas" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.pandas.bids_cost">
+<span class="sig-prename descclassname"><span class="pre">carbon.pandas.</span></span><span class="sig-name descname"><span class="pre">bids_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><span class="pre">Framework</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pd.Series</span></span></span><a class="reference internal" href="../_modules/carbon/pandas.html#bids_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.pandas.bids_cost" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the bids C02 footprints per row.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.pandas.get_bids_cost_aggregator">
+<span class="sig-prename descclassname"><span class="pre">carbon.pandas.</span></span><span class="sig-name descname"><span class="pre">get_bids_cost_aggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><span class="pre">Framework</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/carbon/pandas.html#get_bids_cost_aggregator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.pandas.get_bids_cost_aggregator" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.pandas.get_impressions_cost_aggregator">
+<span class="sig-prename descclassname"><span class="pre">carbon.pandas.</span></span><span class="sig-name descname"><span class="pre">get_impressions_cost_aggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><span class="pre">Framework</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/carbon/pandas.html#get_impressions_cost_aggregator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.pandas.get_impressions_cost_aggregator" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="carbon.pandas.impressions_cost">
+<span class="sig-prename descclassname"><span class="pre">carbon.pandas.</span></span><span class="sig-name descname"><span class="pre">impressions_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#carbon.digital_carbon_framework.Framework" title="carbon.digital_carbon_framework.Framework"><span class="pre">Framework</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pd.Series</span></span></span><a class="reference internal" href="../_modules/carbon/pandas.html#impressions_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.pandas.impressions_cost" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the C02 emissions for a number of impressions.</p>
+</dd></dl>
+
+</section>
+<section id="module-carbon.utils">
+<span id="carbon-utils-module"></span><h2>carbon.utils module<a class="headerlink" href="#module-carbon.utils" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="carbon.utils.Distribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">carbon.utils.</span></span><span class="sig-name descname"><span class="pre">Distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/carbon/utils.html#Distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.utils.Distribution" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represent a distribution over multiple keys.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="carbon.utils.Distribution.get_ratio">
+<span class="sig-name descname"><span class="pre">get_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_Tget</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">_Tget</span></span></span><a class="reference internal" href="../_modules/carbon/utils.html#Distribution.get_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#carbon.utils.Distribution.get_ratio" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="carbon.utils.Distribution.get_weight">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_weight</span></span><a class="headerlink" href="#carbon.utils.Distribution.get_weight" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="carbon.utils.Distribution.weights">
+<span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#carbon.utils.Distribution.weights" title="Link to this definition">¶</a></dt>
+<dd><p>Set of weights for different keys</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-carbon">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-carbon" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">ad-carbon-calculation-framework</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">carbon</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">carbon package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-carbon.compute_footprints">carbon.compute_footprints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-carbon.digital_carbon_framework">carbon.digital_carbon_framework module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-carbon.pandas">carbon.pandas module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-carbon.utils">carbon.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-carbon">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">carbon</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">carbon</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, OneframeDigital.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/apidoc/carbon.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

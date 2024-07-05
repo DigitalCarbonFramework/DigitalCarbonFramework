@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>carbon.digital_carbon_framework &#8212; ad-carbon-calculation-framework 1.O documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=143ca478"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for carbon.digital_carbon_framework</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the python implementation of the DigitalCarbonFramework referential to compute the carbon emissions of an advertising campaign.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">pydantic.dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span> <span class="nn">carbon</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">carbon.compute_footprints</span> <span class="kn">import</span> <span class="n">Co2Cost</span><span class="p">,</span> <span class="n">Distribution</span>
+
+
+<div class="viewcode-block" id="Device">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Device">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Device</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a target device used in programmatic advertising.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the device&quot;&quot;&quot;</span>
+    <span class="n">average_power_watt</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Average device power in active mode (in watts)&quot;&quot;&quot;</span>
+    <span class="n">average_lifetime_years</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Average lifetime lifespan (in hours)&quot;&quot;&quot;</span>
+    <span class="n">average_daily_use_hours_per_day</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Duration of daily device use (in hours)&quot;&quot;&quot;</span>
+    <span class="n">manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Average impact of the device, including manufacturing, transport and end of life on its lifespan (excluding use)&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Framework">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Framework</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class representating all the component of the programmatic advertising chain.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Framework.AllocationNetworkUse">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.AllocationNetworkUse">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">AllocationNetworkUse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the utilization of the network for the Allocation part.&quot;&quot;&quot;</span>
+
+        <span class="n">nb_requests_per_active_path</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of requests per active path&quot;&quot;&quot;</span>
+        <span class="n">mean_https_request_k0</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average weight of an HTTP request in kilo bytes&quot;&quot;&quot;</span>
+        <span class="n">uncertainty_margin</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Uncertainty margin&quot;&quot;&quot;</span>
+        <span class="n">fixed_network_use</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average share of fixed network usage in programmatic&quot;&quot;&quot;</span>
+        <span class="n">energy_efficiency_fixed_network_in_use_kWh_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average energy efficiency of the fixed network in the use phase (kWh/ko)&quot;&quot;&quot;</span>
+        <span class="n">network_trafic_in_datacenter_country_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of network traffic in the country of the data center in programmatic&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_server</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Emission factor for the electricity consumed by the servers (to be adapted depending on the location of the servers) (kgCO2e/kWh)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.AllocationNetworkManufacturing">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.AllocationNetworkManufacturing">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">AllocationNetworkManufacturing</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the fabrication, utilization and life cycle of the network for the Allocation part.&quot;&quot;&quot;</span>
+
+        <span class="n">nb_requests_per_active_path</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of requests per active path&quot;&quot;&quot;</span>
+        <span class="n">mean_https_request_k0</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average weight of an HTTP request in kilo bytes&quot;&quot;&quot;</span>
+        <span class="n">uncertainty_margin</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Uncertainty margin&quot;&quot;&quot;</span>
+        <span class="n">fixed_network_use</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">impact_1ko_transport_on_fixed_network_kgCo2_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Impact of transporting 1 KB of data via fixed network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.AllocationServersUse">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.AllocationServersUse">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">AllocationServersUse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the utilization of the servers for the Allocation part.&quot;&quot;&quot;</span>
+
+        <span class="n">nb_server_requests_per_active_path</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of servers requested per active path&quot;&quot;&quot;</span>
+        <span class="n">server_time_calculation_during_auction_s</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Server calculation time during an auction (hour)&quot;&quot;&quot;</span>
+        <span class="n">vm_mean_power_in_kW</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average power of a virtual server (Watt)&quot;&quot;&quot;</span>
+        <span class="n">pue</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average PUE of a data center&quot;&quot;&quot;</span>
+        <span class="n">server_consumption</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modeling of server consumption linked to uses excluding auctions and distribution (reporting, machine learning, back-end, etc.)&quot;&quot;&quot;</span>
+        <span class="n">server_share_local</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of servers in France&quot;&quot;&quot;</span>
+        <span class="n">server_share_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of international servers&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_country</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Electricity emission factor in target country&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;International electricity emission factor for IT uses&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.AllocationServersManufacturing">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.AllocationServersManufacturing">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">AllocationServersManufacturing</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the to the fabrication, utilization and life cycle  of the servers for the Allocation part.&quot;&quot;&quot;</span>
+
+        <span class="n">nb_server_requests_per_active_path</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of servers requested per active path&quot;&quot;&quot;</span>
+        <span class="n">annual_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Server calculation time during an auction (hour)&quot;&quot;&quot;</span>
+        <span class="n">nb_vm_servers_per_physic_server</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annual carbon impact - manufacturing and end of life of an average physical server (kgCO2e)&quot;&quot;&quot;</span>
+        <span class="n">server_time_calculation_during_auction_s</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of virtual servers (VMs) per physical server&quot;&quot;&quot;</span>
+        <span class="n">server_consumption</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modeling of server consumption linked to uses excluding auctions and distribution (reporting, machine learning, back-end, etc.)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.AllocationAndServers">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.AllocationAndServers">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">AllocationAndServers</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the to the fabrication, utilization and life cycle of both network &amp;  servers for the Allocation part.&quot;&quot;&quot;</span>
+
+        <span class="n">nb_paths_display</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Programmatic - Display - number of potential active paths&quot;&quot;&quot;</span>
+        <span class="n">nb_paths_video</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Programmatic - Instream video &amp; other modes - number of potential active paths&quot;&quot;&quot;</span>
+        <span class="n">publisher_activated_paths_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of potential paths activated at each print (publishers)&quot;&quot;&quot;</span>
+        <span class="n">ssp_activated_paths_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of potential paths activated at each print (ssp)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionServerUse">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionServerUse">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionServerUse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the utilization of the server for the distribution part.&quot;&quot;&quot;</span>
+
+        <span class="n">pue_mean</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average PUE of a data center&quot;&quot;&quot;</span>
+        <span class="n">energy_efficiency_server_target_country</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average energy efficiency of a server the target country (kWh/ko)&quot;&quot;&quot;</span>
+        <span class="n">energy_efficiency_server_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average energy efficiency of a server worldwide (kWh/ko)&quot;&quot;&quot;</span>
+        <span class="n">server_share_local</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of servers in the target country&quot;&quot;&quot;</span>
+        <span class="n">server_share_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of servers worlwide&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Electricity emission factor worlwide (kgCO2e/kWh)&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_target_country</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Electricity emission factor in the target country (kgCO2e/kWh)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionServerManufacturing">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionServerManufacturing">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionServerManufacturing</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the fabrication, utilization and life cycle of the server for the distribution part&quot;&quot;&quot;</span>
+
+        <span class="n">annual_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average impact of a server reduced to one year of use, including manufacturing, transport and end of life (excluding use) (kgCo2)&quot;&quot;&quot;</span>
+        <span class="n">bandwidth_server_ko_per_s</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Server bandwidth (Ko/s)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionNetworkUse">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionNetworkUse">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionNetworkUse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the utilization of the network for the distribution part.&quot;&quot;&quot;</span>
+
+        <span class="n">fixed_network_usage_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average share of fixed network usage (wifi)&quot;&quot;&quot;</span>
+        <span class="n">fixed_mobile_usage_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average share of mobile usage (4G)&quot;&quot;&quot;</span>
+        <span class="n">server_share_local</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of network traffic in the country of content viewing&quot;&quot;&quot;</span>
+        <span class="n">server_share_datacenter</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share of network traffic in the datacenter country&quot;&quot;&quot;</span>
+        <span class="n">energy_efficiency_fixed_network_in_use_kWh_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average energy efficiency of the fixed network in the use phase (kWh/ko)&quot;&quot;&quot;</span>
+        <span class="n">energy_efficiency_mobile_in_use_kWh_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average energy efficiency of the mobile network in the use phase (kWh/ko)&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_target_country</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Emission factor of the electricity consumed by the audience (kgCO2e/kWh)&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_worldwide</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Emission factor of the electricity consumed worldwide  (kgCO2e/kWh)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionNetworkManufacturing">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionNetworkManufacturing">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionNetworkManufacturing</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the fabrication, utilization and life cycle of the network for the distribution part.&quot;&quot;&quot;</span>
+
+        <span class="n">fixed_network_usage_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average share of fixed network usage (wifi)&quot;&quot;&quot;</span>
+        <span class="n">fixed_mobile_usage_share</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average share of mobile usage (4G)&quot;&quot;&quot;</span>
+        <span class="n">transport_cost_on_fixed_network_kgCo2_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Impact of transporting 1 KB of data via fixed network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)&quot;&quot;&quot;</span>
+        <span class="n">transport_cost_on_mobile_kgCo2_per_kO</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Impact of transporting 1 KB of data via mobile network including manufacturing, transport and end of life (excluding use) (kgCO2e/ko)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionTerminalUse">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionTerminalUse">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionTerminalUse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the utilization of the terminals for the distribution part.&quot;&quot;&quot;</span>
+
+        <span class="n">smartphone_usage</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="s2">&quot;browser&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;either &#39;app&#39; or &#39;browser&#39;&quot;&quot;&quot;</span>
+        <span class="n">smart_phone_average_power_watt_app</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average smartphone power in active mode, for app usage&quot;&quot;&quot;</span>
+        <span class="n">smart_phone_average_power_watt_browser</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average smartphone power in active mode, for browser usage&quot;&quot;&quot;</span>
+        <span class="n">tv_average_power_watt</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average tv power in active mode&quot;&quot;&quot;</span>
+        <span class="n">desktop_average_power_watt</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average computer power in active mode&quot;&quot;&quot;</span>
+        <span class="n">tablet_average_power_watt</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average tablet power in active mode&quot;&quot;&quot;</span>
+        <span class="n">emission_factor_target_country</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Emission factor of the electricity consumed by the audience&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.DistributionTerminalManufacturing">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.DistributionTerminalManufacturing">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">DistributionTerminalManufacturing</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters related to the fabrication, utilization and life cycle of the terminals for the distribution part.&quot;&quot;&quot;</span>
+
+        <span class="n">desktop_average_lifetime_years</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average desktop lifespan&quot;&quot;&quot;</span>
+        <span class="n">desktop_average_daily_use_hours_per_day</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Duration of daily use of a desktop&quot;&quot;&quot;</span>
+        <span class="n">desktop_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average impact of a desktop, including manufacturing, transport and end of life on its lifespan (excluding use)&quot;&quot;&quot;</span>
+
+        <span class="n">tv_average_lifetime_years</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average connected tv lifespan&quot;&quot;&quot;</span>
+        <span class="n">tv_average_daily_use_hours_per_day</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Duration of daily use of a connected tv&quot;&quot;&quot;</span>
+        <span class="n">tv_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average impact of a connected tv, including manufacturing, transport and end of life on its lifespan (excluding use)&quot;&quot;&quot;</span>
+
+        <span class="n">tablet_average_lifetime_years</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average tablet lifespan&quot;&quot;&quot;</span>
+        <span class="n">tablet_average_daily_use_hours_per_day</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Duration of daily use of a tablet&quot;&quot;&quot;</span>
+        <span class="n">tablet_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average impact of a tablet, including manufacturing, transport and end of life on its lifespan (excluding use)&quot;&quot;&quot;</span>
+
+        <span class="n">smart_phone_average_lifetime_years</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average smart phone lifespan&quot;&quot;&quot;</span>
+        <span class="n">smart_phone_average_daily_use_hours_per_day</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Duration of daily use of a smart phone&quot;&quot;&quot;</span>
+        <span class="n">smart_phone_manufacturing_cost_kgco2</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Average impact of a smart phone, including manufacturing, transport and end of life on its lifespan (excluding use)&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Framework.Server">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.Server">[docs]</a>
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
+        <span class="n">share</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">emission_factor</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">energy_efficiency_kwh_per_ko</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+<div class="viewcode-block" id="Framework.multiply_attributes">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.multiply_attributes">[docs]</a>
+    <span class="k">def</span> <span class="nf">multiply_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Co2Cost_</span><span class="p">:</span> <span class="n">Co2Cost</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="n">Co2Cost_</span><span class="o">.</span><span class="n">use</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">manufacturing</span><span class="o">=</span><span class="n">Co2Cost_</span><span class="o">.</span><span class="n">manufacturing</span> <span class="o">*</span> <span class="n">factor</span>
+        <span class="p">)</span></div>
+
+
+    <span class="n">allocation_network_use</span><span class="p">:</span> <span class="n">AllocationNetworkUse</span>
+    <span class="n">allocation_network_manufacturing</span><span class="p">:</span> <span class="n">AllocationNetworkManufacturing</span>
+    <span class="n">allocation_servers_use</span><span class="p">:</span> <span class="n">AllocationServersUse</span>
+    <span class="n">allocation_servers_manufacturing</span><span class="p">:</span> <span class="n">AllocationServersManufacturing</span>
+    <span class="n">allocation_network_servers</span><span class="p">:</span> <span class="n">AllocationAndServers</span>
+
+    <span class="n">distribution_server_use</span><span class="p">:</span> <span class="n">DistributionServerUse</span>
+    <span class="n">distribution_server_manufacturing</span><span class="p">:</span> <span class="n">DistributionServerManufacturing</span>
+    <span class="n">distribution_network_use</span><span class="p">:</span> <span class="n">DistributionNetworkUse</span>
+    <span class="n">distribution_network_manufacturing</span><span class="p">:</span> <span class="n">DistributionNetworkManufacturing</span>
+    <span class="n">distribution_terminal_use</span><span class="p">:</span> <span class="n">DistributionTerminalUse</span>
+    <span class="n">distribution_terminal_manufacturing</span><span class="p">:</span> <span class="n">DistributionTerminalManufacturing</span>
+
+    <span class="n">_emission_factors_dict_iso2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_emission_factors_dict_iso3</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Framework.load">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.load">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting instanciation of Framework object&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading default config&quot;</span><span class="p">)</span>
+            <span class="n">config_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;digital_carbon_framework.yml&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config_data</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config file properly loaded&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Framework object generated&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">hours_in_years</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">8766</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">second_in_years</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">24</span> <span class="o">*</span> <span class="mf">365.25</span> <span class="o">*</span> <span class="mi">3600</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">from_kilo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">seconds_to_hour</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3600</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">smart_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Device</span><span class="p">:</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">smart_phone_average_power_watt_app</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">smartphone_usage</span> <span class="o">==</span> <span class="s2">&quot;app&quot;</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">smart_phone_average_power_watt_browser</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Device</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;smart_phone&quot;</span><span class="p">,</span>
+            <span class="n">average_power_watt</span><span class="o">=</span><span class="n">power</span><span class="p">,</span>
+            <span class="n">average_lifetime_years</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">smart_phone_average_lifetime_years</span><span class="p">,</span>
+            <span class="n">average_daily_use_hours_per_day</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">smart_phone_average_daily_use_hours_per_day</span><span class="p">,</span>
+            <span class="n">manufacturing_cost_kgco2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">smart_phone_manufacturing_cost_kgco2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Device</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Device</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;connected_tv&quot;</span><span class="p">,</span>
+            <span class="n">average_power_watt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">tv_average_power_watt</span><span class="p">,</span>
+            <span class="n">average_lifetime_years</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tv_average_lifetime_years</span><span class="p">,</span>
+            <span class="n">average_daily_use_hours_per_day</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tv_average_daily_use_hours_per_day</span><span class="p">,</span>
+            <span class="n">manufacturing_cost_kgco2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tv_manufacturing_cost_kgco2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">desktop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Device</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Device</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;desktop&quot;</span><span class="p">,</span>
+            <span class="n">average_power_watt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">desktop_average_power_watt</span><span class="p">,</span>
+            <span class="n">average_lifetime_years</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">desktop_average_lifetime_years</span><span class="p">,</span>
+            <span class="n">average_daily_use_hours_per_day</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">desktop_average_daily_use_hours_per_day</span><span class="p">,</span>
+            <span class="n">manufacturing_cost_kgco2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">desktop_manufacturing_cost_kgco2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tablet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Device</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Device</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tablet&quot;</span><span class="p">,</span>
+            <span class="n">average_power_watt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">tablet_average_power_watt</span><span class="p">,</span>
+            <span class="n">average_lifetime_years</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tablet_average_lifetime_years</span><span class="p">,</span>
+            <span class="n">average_daily_use_hours_per_day</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tablet_average_daily_use_hours_per_day</span><span class="p">,</span>
+            <span class="n">manufacturing_cost_kgco2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_manufacturing</span><span class="o">.</span><span class="n">tablet_manufacturing_cost_kgco2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">emission_factors_dict_iso2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;iso2.yml&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">yaml_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso2</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso2</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">emission_factors_dict_iso3</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso3</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;iso3.yml&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">yaml_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso3</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso3</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emission_factors_dict_iso3</span>
+
+<div class="viewcode-block" id="Framework.change_target_country">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.change_target_country">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_target_country</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the emission factors of the specified country</span>
+
+<span class="sd">        :param alpha_code:  alpha_code of the specified country. Support iso2 &amp; iso3 countries (ex: country: &#39;France&#39;, alpha_code=&#39;FR&#39; or alpha_code=&#39;FRA&#39; supported)</span>
+<span class="sd">        :type alpha_code: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Changing Target country to </span><span class="si">{</span><span class="n">alpha_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha_code</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">emission_factors_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_factors_dict_iso3</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha_code</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">emission_factors_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_factors_dict_iso2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alpha code </span><span class="si">{</span><span class="n">alpha_code</span><span class="si">}</span><span class="s2"> not iso2 or iso3 compliant&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_emission_factor</span> <span class="o">=</span> <span class="n">emission_factors_dict</span><span class="p">[</span><span class="n">alpha_code</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">new_emission_factor</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">new_emission_factor</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">new_emission_factor</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">emission_factor_country</span> <span class="o">=</span> <span class="n">new_emission_factor</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emission factors changed to </span><span class="si">{</span><span class="n">new_emission_factor</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alpha code </span><span class="si">{</span><span class="n">alpha_code</span><span class="si">}</span><span class="s2"> not in database&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emission factors not changed: </span><span class="si">{</span><span class="n">alpha_code</span><span class="si">}</span><span class="s2"> not referenced&quot;</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">allocation_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">publisher_activated_paths_share</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_servers</span><span class="o">.</span><span class="n">ssp_activated_paths_share</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">alloc_servers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Server</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: a list of two Server classes, associated to the allocation server usage.</span>
+<span class="sd">        :rtype: list[Server]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">server2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span>
+            <span class="n">share</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">server_share_worldwide</span><span class="p">,</span>
+            <span class="n">emission_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">emission_factor_worldwide</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">server1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span>
+            <span class="n">share</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">server_share_local</span><span class="p">,</span>
+            <span class="n">emission_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">emission_factor_country</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">server1</span><span class="p">,</span> <span class="n">server2</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">distrib_servers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Server</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: a list of two Server classes, associated to the distribution server usage.</span>
+<span class="sd">        :rtype: list[Server]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">server2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span>
+            <span class="n">share</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">server_share_worldwide</span><span class="p">,</span>
+            <span class="n">emission_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">emission_factor_worldwide</span><span class="p">,</span>
+            <span class="n">energy_efficiency_kwh_per_ko</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">energy_efficiency_server_worldwide</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">server1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span>
+            <span class="n">share</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">server_share_local</span><span class="p">,</span>
+            <span class="n">emission_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span><span class="p">,</span>
+            <span class="n">energy_efficiency_kwh_per_ko</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">energy_efficiency_server_target_country</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">server1</span><span class="p">,</span> <span class="n">server2</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kgco2_allocation_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">nb_server_requests_per_active_path</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">pue</span>
+                <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">server_consumption</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">server_time_calculation_during_auction_s</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_use</span><span class="o">.</span><span class="n">vm_mean_power_in_kW</span>
+                <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">servers</span><span class="o">.</span><span class="n">share</span> <span class="o">*</span> <span class="n">servers</span><span class="o">.</span><span class="n">emission_factor</span>
+                        <span class="k">for</span> <span class="n">servers</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alloc_servers</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_manufacturing</span><span class="o">.</span><span class="n">nb_server_requests_per_active_path</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_manufacturing</span><span class="o">.</span><span class="n">annual_manufacturing_cost_kgco2</span>
+                <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_manufacturing</span><span class="o">.</span><span class="n">nb_vm_servers_per_physic_server</span>
+                <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_manufacturing</span><span class="o">.</span><span class="n">server_consumption</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_servers_manufacturing</span><span class="o">.</span><span class="n">server_time_calculation_during_auction_s</span>
+                <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hours_in_years</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kgco2_allocation_network</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">nb_requests_per_active_path</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">mean_https_request_k0</span>
+                <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">uncertainty_margin</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">fixed_network_use</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">energy_efficiency_fixed_network_in_use_kWh_per_kO</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">network_trafic_in_datacenter_country_share</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_use</span><span class="o">.</span><span class="n">emission_factor_server</span>
+            <span class="p">),</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_manufacturing</span><span class="o">.</span><span class="n">nb_requests_per_active_path</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_manufacturing</span><span class="o">.</span><span class="n">mean_https_request_k0</span>
+                <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_manufacturing</span><span class="o">.</span><span class="n">uncertainty_margin</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_manufacturing</span><span class="o">.</span><span class="n">fixed_network_use</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_network_manufacturing</span><span class="o">.</span><span class="n">impact_1ko_transport_on_fixed_network_kgCo2_per_kO</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kgco2_distrib_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_use</span><span class="o">.</span><span class="n">pue_mean</span>
+            <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">servers</span><span class="o">.</span><span class="n">share</span>
+                    <span class="o">*</span> <span class="n">servers</span><span class="o">.</span><span class="n">emission_factor</span>
+                    <span class="o">*</span> <span class="n">servers</span><span class="o">.</span><span class="n">energy_efficiency_kwh_per_ko</span>
+                    <span class="k">for</span> <span class="n">servers</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distrib_servers</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_manufacturing</span><span class="o">.</span><span class="n">annual_manufacturing_cost_kgco2</span>
+            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_server_manufacturing</span><span class="o">.</span><span class="n">bandwidth_server_ko_per_s</span>
+            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_in_years</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kgco2_distrib_network</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">fixed_mobile_usage_share</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">energy_efficiency_mobile_in_use_kWh_per_kO</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">fixed_network_usage_share</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">energy_efficiency_fixed_network_in_use_kWh_per_kO</span>
+            <span class="p">)</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">server_share_local</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">server_share_datacenter</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_use</span><span class="o">.</span><span class="n">emission_factor_worldwide</span>
+            <span class="p">),</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_manufacturing</span><span class="o">.</span><span class="n">fixed_network_usage_share</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_manufacturing</span><span class="o">.</span><span class="n">transport_cost_on_fixed_network_kgCo2_per_kO</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_manufacturing</span><span class="o">.</span><span class="n">fixed_mobile_usage_share</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_network_manufacturing</span><span class="o">.</span><span class="n">transport_cost_on_mobile_kgCo2_per_kO</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Framework.kgco2_distrib_terminal">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.kgco2_distrib_terminal">[docs]</a>
+    <span class="k">def</span> <span class="nf">kgco2_distrib_terminal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devices_repartition</span><span class="p">:</span> <span class="n">Distribution</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="n">Co2Cost_terminals</span> <span class="o">=</span> <span class="n">Co2Cost</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">desktop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tablet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">smart_phone</span><span class="p">]:</span>
+            <span class="n">kgco2_per_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kgco2_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">Co2Cost_terminals</span><span class="o">.</span><span class="n">use</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">kgco2_per_device</span><span class="o">.</span><span class="n">use</span> <span class="o">*</span> <span class="n">devices_repartition</span><span class="o">.</span><span class="n">get_ratio</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">Co2Cost_terminals</span><span class="o">.</span><span class="n">manufacturing</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">kgco2_per_device</span><span class="o">.</span><span class="n">manufacturing</span>
+                <span class="o">*</span> <span class="n">devices_repartition</span><span class="o">.</span><span class="n">get_ratio</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Co2Cost_terminals</span></div>
+
+
+<div class="viewcode-block" id="Framework.kgco2_device">
+<a class="viewcode-back" href="../../apidoc/carbon.html#carbon.digital_carbon_framework.Framework.kgco2_device">[docs]</a>
+    <span class="k">def</span> <span class="nf">kgco2_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specified_device</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Co2Cost</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Co2Cost</span><span class="p">(</span>
+            <span class="n">use</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">specified_device</span><span class="o">.</span><span class="n">average_power_watt</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_kilo</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_terminal_use</span><span class="o">.</span><span class="n">emission_factor_target_country</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">seconds_to_hour</span>
+            <span class="p">),</span>
+            <span class="n">manufacturing</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">specified_device</span><span class="o">.</span><span class="n">manufacturing_cost_kgco2</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">seconds_to_hour</span>
+                <span class="o">/</span> <span class="p">(</span>
+                    <span class="n">specified_device</span><span class="o">.</span><span class="n">average_daily_use_hours_per_day</span>
+                    <span class="o">*</span> <span class="n">specified_device</span><span class="o">.</span><span class="n">average_lifetime_years</span>
+                    <span class="o">*</span> <span class="mi">365</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">ad-carbon-calculation-framework</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">carbon</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, OneframeDigital.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

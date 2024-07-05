@@ -1,0 +1,45 @@
+carbon package
+==============
+
+Submodules
+----------
+
+carbon.compute\_footprints module
+---------------------------------
+
+.. automodule:: carbon.compute_footprints
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carbon.digital\_carbon\_framework module
+----------------------------------------
+
+.. automodule:: carbon.digital_carbon_framework
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carbon.pandas module
+--------------------
+
+.. automodule:: carbon.pandas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carbon.utils module
+-------------------
+
+.. automodule:: carbon.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: carbon
+   :members:
+   :undoc-members:
+   :show-inheritance:
