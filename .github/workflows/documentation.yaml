@@ -3,13 +3,17 @@ on:
   push:
     branches:
       - "main"
-  pull_request:
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,12 +23,10 @@ jobs:
       - run: pip install .[pandas] sphinx myst-parser
       - run: sphinx-apidoc -o docs/apidoc src/carbon
       - run: sphinx-build -M html docs docs/_build
-      # - uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     folder: docs/_build/html
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: Documentation
           path: docs/_build/html
-          retention-days: 15
-          overwrite: true
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
