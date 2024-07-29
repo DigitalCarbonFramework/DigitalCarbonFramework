@@ -38,6 +38,9 @@ The total carbon cost of the campaign is expressed in kilograms of carbon.
 Let's start by installing the project.
 
 ```bash
+# Clone the repo
+git clone https://github.com/DigitalCarbonFramework/DigitalCarbonFramework.git
+cd DigitalCarbonFramework
 # Create a Python virtual environment (https://docs.python.org/3/library/venv.html)
 python -m venv .venv
 # Activate your environment (https://docs.python.org/3/library/venv.html#how-venvs-work)
