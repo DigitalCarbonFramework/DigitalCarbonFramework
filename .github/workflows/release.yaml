@@ -22,6 +22,17 @@ jobs:
         python-version: "3.11"
     - name: Install build backend
       run: pip install build
+    - name: Version update
+        id: version
+        env:
+          PRE_RELEASE: ${{ github.event_name == 'pull_request' && format('.a{0}', github.event.pull_request.number) || '' }}
+          PEP440_REGEX: >-
+            (?P<epoch>([0-9]+!)?)(?P<release>[0-9]+(\.[0-9]+)*)(?P<pre>((a|b|rc)[0-9]+)?)(?P<post>(\.post[0-9]+)?)(?P<dev>(\.dev[0-9]+)?)(.*)
+        run: |
+          python -c '
+          import re
+          print(re.sub(r"'$PEP440_REGEX'", r"version=\g<epoch>\g<release>'${PRE_RELEASE}'\g<post>\g<dev>", "${{ steps.default_version.outputs.version }}"))
+          ' | tee -a "$GITHUB_OUTPUT"
     - name: Build
       run: python -m build
     - name: Store the distribution packages
