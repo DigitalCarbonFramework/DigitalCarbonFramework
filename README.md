@@ -181,7 +181,7 @@ The DigitalCarbonFramework defines a number of paths activated for video creativ
 An ad call is made to only 1 SSP. Given the estimation of 10 SSPs, each ad call activates 10 paths for a video, 35 paths for a display.
 
 ```python
-co2_adcalls = adcalls_cost(campaign, nb_ad_calls=1000, creative_type='video')
+co2_adcalls = adcalls_cost(campaign, nb_ad_calls=10000, creative_type='video')
 co2_adcalls.shows()
 
 # This is a AdcallCost object.
