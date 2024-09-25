@@ -171,7 +171,7 @@ co2_bids_only.shows()
 #                         Overall:       use:   0.0810    manufacture:   0.0301
 
 print(f'The carbon emissions for the bidding process is: {co2_bids_only.overall.total} kgco2')
-#> The total of the carbon emissions for the campaign is: 0.11109010712522793 kgco2
+#> The carbon emissions for the bidding process is: 0.11109010712522793 kgco2
 ```
 
 ##### The `adcalls_cost` function
@@ -181,7 +181,7 @@ The DigitalCarbonFramework defines a number of paths activated for video creativ
 An ad call is made to only 1 SSP. Given the estimation of 10 SSPs, each ad call activates 10 paths for a video, 35 paths for a display.
 
 ```python
-co2_adcalls = adcalls_cost(campaign, nb_ad_calls=1000, creative_type='video')
+co2_adcalls = adcalls_cost(campaign, nb_ad_calls=10000, creative_type='video')
 co2_adcalls.shows()
 
 # This is a AdcallCost object.
@@ -189,8 +189,8 @@ co2_adcalls.shows()
 #         kgco2_allocation_server:       use:   0.0053    manufacture:   0.0174
 #                         Overall:       use:   0.2025    manufacture:   0.0752
 
-print(f'The carbon emissions of a number of ad calls is: {co2_adcalls.overall.total} kgco2')
-#> The total of the carbon emissions for the campaign is: 0.27772526781306983 kgco2
+print(f'The carbon emissions for the number of ad calls is: {co2_adcalls.overall.total} kgco2')
+#> The carbon emissions for the number of ad calls is: 0.27772526781306983 kgco2
 ```
 
 ## Authors and acknowledgment
