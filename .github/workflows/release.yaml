@@ -24,5 +24,5 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/ad-carbon-calculation-framework-*.whl
+        files: dist/ad_carbon_calculation_framework-*.whl
         draft: ${{ github.event_name == 'workflow_dispatch' }}
