@@ -19,6 +19,8 @@ jobs:
       run: pip install hatch
     - name: Build
       run: hatch build -t wheel
+    - name: Debug list files
+      run: ls -la dist/
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
