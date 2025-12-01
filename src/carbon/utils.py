@@ -20,6 +20,8 @@ class Distribution(BaseModel):
     _Tget = typing.TypeVar("_Tget")
 
     def get_ratio(self, key, default: _Tget = None) -> float | _Tget:
+        if self._total_weights == 0:
+            return 0.0
         return (
             self.weights[key] / self._total_weights if key in self.weights else default
         )

@@ -59,3 +59,7 @@ class DigitalCarbonTest(unittest.TestCase):
             ).overall.total,
             Co2Cost(use=7.83829675080798, manufacturing=3.2045569703363834).total,
         )
+
+    def test_null_weights(self):
+        distribution = digital_carbon_framework.Distribution(weights={"desktop": 0})
+        self.assertEqual(distribution.get_ratio("desktop"), 0.0)
