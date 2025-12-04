@@ -11,7 +11,11 @@ class Distribution(BaseModel):
 
     def model_post_init(self, __context) -> None:
         del __context
+        if any(x < 0 for x in self.weights.values()):
+            raise ValueError("Distribution expect only positive weights")
         self._total_weights = sum(self.weights.values())
+        if self._total_weights == 0:
+            raise ValueError("At least one weight must be non-null")
 
     @property
     def get_weight(self):
@@ -20,6 +24,8 @@ class Distribution(BaseModel):
     _Tget = typing.TypeVar("_Tget")
 
     def get_ratio(self, key, default: _Tget = None) -> float | _Tget:
+        if self._total_weights == 0:
+            return 0.0
         return (
             self.weights[key] / self._total_weights if key in self.weights else default
         )
