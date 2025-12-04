@@ -526,11 +526,11 @@ class Framework:
         for device in [self.tv, self.desktop, self.tablet, self.smart_phone]:
             kgco2_per_device = self.kgco2_device(device)
             Co2Cost_terminals.use += (
-                kgco2_per_device.use * devices_repartition.get_ratio(device.name, -1)
+                kgco2_per_device.use * devices_repartition.get_ratio(device.name, 0)
             )
             Co2Cost_terminals.manufacturing += (
                 kgco2_per_device.manufacturing
-                * devices_repartition.get_ratio(device.name, -1)
+                * devices_repartition.get_ratio(device.name, 0)
             )
         return Co2Cost_terminals
 

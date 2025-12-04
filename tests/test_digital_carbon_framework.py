@@ -60,6 +60,25 @@ class DigitalCarbonTest(unittest.TestCase):
             Co2Cost(use=7.83829675080798, manufacturing=3.2045569703363834).total,
         )
 
-    def test_null_weights(self):
-        distribution = digital_carbon_framework.Distribution(weights={"desktop": 0})
-        self.assertEqual(distribution.get_ratio("desktop"), 0.0)
+    def test_cant_construct_distrib_with_null_weights(self):
+        with self.assertRaises(ValueError):
+            digital_carbon_framework.Distribution(weights={"desktop": 0})
+
+    def test_cant_construct_distrib_with_negative_weights(self):
+        with self.assertRaises(ValueError):
+            digital_carbon_framework.Distribution(weights={"desktop": -1})
+
+    def test_compute_distrib_terminal(self):
+        all_devices = digital_carbon_framework.Distribution(weights={'smart_phone': 1.0, 'tablet': 0.0, 'desktop': 0.0, 'connected_tv':1})
+        carbon_all_devices = impressions_cost( digital_carbon_framework.Framework.load(),
+                    creative_type='video', nb_impressions=1000,
+                    allocation='direct', creative_size_ko=5000,
+                    devices_repartition=all_devices, creative_avg_view_s=3)
+        
+        limited_devices = digital_carbon_framework.Distribution(weights={'smart_phone': 1.0, 'connected_tv':1})
+        carbon_limited_devices = impressions_cost( digital_carbon_framework.Framework.load(),
+                    creative_type='video', nb_impressions=1000,
+                    allocation='direct', creative_size_ko=5000,
+                    devices_repartition=limited_devices, creative_avg_view_s=3)
+        self.assertEqual(carbon_all_devices.kgco2_distrib_terminal.total
+                            , carbon_limited_devices.kgco2_distrib_terminal.total) 
