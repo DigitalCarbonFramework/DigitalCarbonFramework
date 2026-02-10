@@ -4,9 +4,13 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: Version to release (v*.*.*)
+        required: true
 
 env:
-  pypi_url: ${{ startsWith(github.ref, 'refs/tags/') && 'https://pypi.org' || 'https://test.pypi.org/'
+  pypi_url: ${{ startsWith(github.ref, 'refs/tags/') && 'https://pypi.org' || 'https://test.pypi.org/' }}
 
 jobs:
   build:
@@ -14,52 +18,40 @@ jobs:
     permissions:
       contents: write
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-    - name: Install build backend
-      run: pip install build
-    - name: Version update
-        id: version
-        env:
-          PRE_RELEASE: ${{ github.event_name == 'pull_request' && format('.a{0}', github.event.pull_request.number) || '' }}
-          PEP440_REGEX: >-
-            (?P<epoch>([0-9]+!)?)(?P<release>[0-9]+(\.[0-9]+)*)(?P<pre>((a|b|rc)[0-9]+)?)(?P<post>(\.post[0-9]+)?)(?P<dev>(\.dev[0-9]+)?)(.*)
-        run: |
-          python -c '
-          import re
-          print(re.sub(r"'$PEP440_REGEX'", r"version=\g<epoch>\g<release>'${PRE_RELEASE}'\g<post>\g<dev>", "${{ steps.default_version.outputs.version }}"))
-          ' | tee -a "$GITHUB_OUTPUT"
-    - name: Build
-      run: python -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v3
-      with:
-        name: python-package-distributions
-        path: dist/
-
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install build backend
+        run: pip install build
+      - name: Build
+        run: python -m build
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
 
   publish:
     name: >-
       Publish Python distribution to PyPI & PyPI test
     needs:
-    - build
+      - build
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: "${{ env.pypi_url }}/p/digital-carbon-framework" 
+      url: "${{ env.pypi_url }}/p/digital-carbon-framework"
     permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
+      id-token: write # IMPORTANT: mandatory for trusted publishing
     steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v3
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: ${{ env.pypi_url }}
+      - name: Download all the dists
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: ${{ env.pypi_url }}
