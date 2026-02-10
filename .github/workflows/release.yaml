@@ -3,14 +3,6 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Version to release (v*.*.*)
-        required: true
-
-env:
-  pypi_url: ${{ startsWith(github.ref, 'refs/tags/') && 'https://pypi.org' || 'https://test.pypi.org/' }}
 
 jobs:
   build:
@@ -36,13 +28,13 @@ jobs:
 
   publish:
     name: >-
-      Publish Python distribution to PyPI & PyPI test
+      Publish Python distribution to PyPI
     needs:
       - build
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: "${{ env.pypi_url }}/p/digital-carbon-framework"
+      url: "https://pypi.org/p/digital-carbon-framework"
     permissions:
       id-token: write # IMPORTANT: mandatory for trusted publishing
     steps:
@@ -53,5 +45,3 @@ jobs:
           path: dist/
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: ${{ env.pypi_url }}
