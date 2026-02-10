@@ -1,6 +1,6 @@
 [project]
 dynamic = ["version"]
-name = "ad-carbon-calculation-framework"
+name = "digital-carbon-framework"
 authors = [
     { name="Greenbids.ai" },
 ]
@@ -23,7 +23,7 @@ dependencies = [
     ]
 
 [project.urls]
-Homepage = "https://github.com/OneframeDigital/ad-carbon-calculation-framework"
+Homepage = "https://github.com/DigitalCarbonFramework/DigitalCarbonFramework"
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
@@ -37,4 +37,6 @@ packages = ["src/carbon"]
 
 [tool.hatch.version]
 source = "vcs"
-path = "src/carbon/__init__.py"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/carbon/_version.py"
